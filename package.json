@@ -1,8 +1,8 @@
 {
-    "name": "strawpollbot",
-    "version": "0.5.0",
-    "dependencies": {
-		"discordie": "~0.11.0",
-		"request": "~2.81.0"
-    }
+  "name": "strawpollbot",
+  "version": "0.5.1",
+  "dependencies": {
+    "discordie": "~0.11.0",
+    "request": "~2.81.0"
+  }
 }

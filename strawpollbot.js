@@ -21,8 +21,8 @@ client.Dispatcher.on(Events.GATEWAY_READY, e => {
 
 client.Dispatcher.on(Events.MESSAGE_CREATE, e => {
     var msgContent = e.message.content
-    if (msgContent.startsWith("!poll ")) {
-        var pattern = /^!poll\s(-{1,2}[^"]+\s)?("[^"]+"\s){2,}"[^"]+"$/;
+    if (msgContent.startsWith(key + "poll ")) {
+        var pattern = /^.poll\s(-{1,2}[^"]+\s)?("[^"]+"\s){2,}"[^"]+"$/;
         if (pattern.test(msgContent)) {
             var params = assemble(msgContent);
             var title = params[0];
@@ -46,7 +46,7 @@ client.Dispatcher.on(Events.MESSAGE_CREATE, e => {
         } else {
             help(e.message.channel);
         }
-    } else if (msgContent.startsWith("!poll-help")) {
+    } else if (msgContent.startsWith(key + "poll-help")) {
         help(e.message.channel);
     }
 });
@@ -94,7 +94,7 @@ function createPoll(title, options, chan, multivote, captcha) {
 }
 
 function help(chan) {
-    chan.sendMessage("Here is how to use this bot : \n````\n!poll [options] \"Title of the poll\" \"Option 1\" \"Option 2\" \"Option 3\" \"Etc..\"\n```\nThe options are : \n````\n    --captcha  -c     :  If this option is set, there will be a captcha in the poll\n    --multi    -m     :  If this option is set, it will be allowed to select multiple options\n```\nThere is a minimum of 2 and a maximum of 30 options, 200 characters per option maximum and 400 characters max for the title.\nType `!poll-help` to show this help.\nFor exemple : \n````\n!poll -c \"Yes or no ?\" \"Yes\" \"No\"\n```");
+    chan.sendMessage("Here is how to use this bot : \n````\n" + key + "poll [options] \"Title of the poll\" \"Option 1\" \"Option 2\" \"Option 3\" \"Etc..\"\n```\nThe options are : \n````\n    --captcha  -c     :  If this option is set, there will be a captcha in the poll\n    --multi    -m     :  If this option is set, it will be allowed to select multiple options\n```\nThere is a minimum of 2 and a maximum of 30 options, 200 characters per option maximum and 400 characters max for the title.\nType `" + key + "poll-help` to show this help.\nFor exemple : \n````\n" + key + "poll -c \"Yes or no ?\" \"Yes\" \"No\"\n```");
 }
 
 function checkOptions(options) {
@@ -108,11 +108,11 @@ function checkOptions(options) {
 }
 /**
  * This method returns the arguments of the command
- * @param {String} command The command the bot has received. It must already be checked with the regex : "/^!poll\s(-{1,2}[^"]+\s)?("[^"]+"\s){2,}"[^"]+"$/"
+ * @param {String} command The command the bot has received. It must already be checked with the regex : "/^.poll\s(-{1,2}[^"]+\s)?("[^"]+"\s){2,}"[^"]+"$/"
  * @return {String[]} the arguments of the command
  */
 function findArgs(command) {
-    command = command.replace("!poll ", "");
+    command = command.replace(key + "poll ", "");
     var inQuotationMarks = false;
     var commandSplitted = command.split(" ");
     var args = [];
@@ -161,11 +161,11 @@ function findArgs(command) {
 
 /**
  * This method is used to assemble the parameters of the command
- * @param {String} command The command the bot has received. It must already be checked with the regex : "/^!poll\s(-{1,2}[^"]+\s)?("[^"]+"\s){2,}"[^"]+"$/"
+ * @param {String} command The command the bot has received. It must already be checked with the regex : "/^.poll\s(-{1,2}[^"]+\s)?("[^"]+"\s){2,}"[^"]+"$/"
  * @return {String[]} the parameters of the command
  */
 function assemble(command) {
-    command = command.replace("!poll ", "");
+    command = command.replace(key + "poll ", "");
     var commandSplitted = command.split(" ");
     var result = [];
     var inQuotationMarks = false;
