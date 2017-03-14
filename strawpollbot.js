@@ -13,6 +13,8 @@ var key = "!"; //First character before command. BEWARE THIS CAN ONLY BE ONE CHA
 
 var client = new Discordie();
 
+client.User.setGame(key + "poll-help");
+
 client.connect({ token: token });
 
 client.Dispatcher.on(Events.GATEWAY_READY, e => {
@@ -26,18 +28,18 @@ client.Dispatcher.on(Events.MESSAGE_CREATE, e => {
         if (pattern.test(msgContent)) {
             var params = assemble(msgContent);
             var title = params[0];
-            params = params.slice(1,params.length);
+            params = params.slice(1, params.length);
             try {
                 var args = findArgs(msgContent);
                 var multi = true;
-                if (args.indexOf("multi") === -1){
+                if (args.indexOf("multi") === -1) {
                     multi = false;
                 }
                 var captcha = true;
-                if (args.indexOf("captcha") === -1){
+                if (args.indexOf("captcha") === -1) {
                     captcha = false;
                 }
-                createPoll(title,params,e.message.channel,multi,captcha);
+                createPoll(title, params, e.message.channel, multi, captcha);
             } catch (error) {
                 e.message.channel.sendMessage("Error : " + error);
                 help(e.message.channel);
@@ -175,13 +177,13 @@ function assemble(command) {
         if (element.startsWith("\"")) {
             inQuotationMarks = true;
         }
-        if (inQuotationMarks){
+        if (inQuotationMarks) {
             paramNow += element + " ";
         }
         if (element.endsWith("\"")) {
             inQuotationMarks = false;
-            paramNow = paramNow.slice(0,paramNow.length - 1);
-            paramNow = paramNow.replace("\"","").replace("\"","");
+            paramNow = paramNow.slice(0, paramNow.length - 1);
+            paramNow = paramNow.replace("\"", "").replace("\"", "");
             result.push(paramNow);
             paramNow = "";
         }
