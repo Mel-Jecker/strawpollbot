@@ -96,7 +96,7 @@ function createPoll(title, options, chan, multivote, captcha) {
 }
 
 function help(chan) {
-    chan.sendMessage("Here is how to use this bot : \n````\n" + key + "poll [options] \"Title of the poll\" \"Option 1\" \"Option 2\" \"Option 3\" \"Etc..\"\n```\nThe options are : \n````\n    --captcha  -c     :  If this option is set, there will be a captcha in the poll\n    --multi    -m     :  If this option is set, it will be allowed to select multiple options\n```\nThere is a minimum of 2 and a maximum of 30 options, 200 characters per option maximum and 400 characters max for the title.\nType `" + key + "poll-help` to show this help.\nFor exemple : \n````\n" + key + "poll -c \"Yes or no ?\" \"Yes\" \"No\"\n```");
+    chan.sendMessage("Here is how to use this bot : \n````\n" + key + "poll [parameters] \"Title of the poll\" \"Option 1\" \"Option 2\" \"Option 3\" \"Etc..\"\n```\nThe parameters are : \n````\n    --captcha  -c     :  If this parameter is set, there will be a captcha in the poll\n    --multi    -m     :  If this parameter is set, it will be allowed to select multiple options\n```\nThere is a minimum of 2 and a maximum of 30 options, 200 characters per option maximum and 400 characters max for the title.\nType `" + key + "poll-help` to show this help.\nFor exemple : \n````\n" + key + "poll -c \"Yes or no ?\" \"Yes\" \"No\"\n```");
 }
 
 function checkOptions(options) {
