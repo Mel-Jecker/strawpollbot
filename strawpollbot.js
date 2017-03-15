@@ -13,9 +13,10 @@ var key = "!"; //First character before command. BEWARE THIS CAN ONLY BE ONE CHA
 
 var client = new Discordie();
 
-client.User.setGame(key + "poll-help");
 
 client.connect({ token: token });
+
+client.User.setGame(key + "poll-help");
 
 client.Dispatcher.on(Events.GATEWAY_READY, e => {
     console.log("Connected as: " + client.User.username);
