@@ -1,29 +1,23 @@
-var token = ""; //The private token of the bot user
+const token = ""; //The private token of the bot user
 
-var Discordie = require("discordie");
-var request = require('request');
+const Discord = require("discord.js");
+const request = require('request');
 
-var Events = Discordie.Events;
+const maxOptions = 30;
+const maxCharOptions = 200;
+const maxCharTitle = 400;
 
-var maxOptions = 30;
-var maxCharOptions = 200;
-var maxCharTitle = 400;
+const key = "!"; //First character before command. BEWARE THIS CAN ONLY BE ONE CHARACTER LONG OR ELSE THE BOT WILL NOT WORK
 
-var key = "!"; //First character before command. BEWARE THIS CAN ONLY BE ONE CHARACTER LONG OR ELSE THE BOT WILL NOT WORK
+const client = new Discord.Client();
 
-var client = new Discordie();
-
-
-client.connect({ token: token });
-
-client.User.setGame(key + "poll-help");
-
-client.Dispatcher.on(Events.GATEWAY_READY, e => {
-    console.log("Connected as: " + client.User.username);
+client.on('ready', e => {
+    console.log("Connected as: " + client.user.username);
+    client.user.setGame(key + "poll-help");
 });
 
-client.Dispatcher.on(Events.MESSAGE_CREATE, e => {
-    var msgContent = e.message.content
+client.on('message', e => {
+    var msgContent = e.content;
     if (msgContent.startsWith(key + "poll ")) {
         var pattern = /^.poll\s(-{1,2}[^"]+\s)?("[^"]+"\s){2,}"[^"]+"$/;
         if (pattern.test(msgContent)) {
@@ -40,17 +34,16 @@ client.Dispatcher.on(Events.MESSAGE_CREATE, e => {
                 if (args.indexOf("captcha") === -1) {
                     captcha = false;
                 }
-                createPoll(title, params, e.message.channel, multi, captcha);
+                createPoll(title, params, e, multi, captcha);
             } catch (error) {
-                e.message.channel.sendMessage("Error : " + error);
-                help(e.message.channel);
+                e.channel.send("Error : " + error);
+                help(e);
             }
-            //createPoll(title, options, e.message.channel, false,true);
         } else {
-            help(e.message.channel);
+            help(e);
         }
     } else if (msgContent.startsWith(key + "poll-help")) {
-        help(e.message.channel);
+        help(e);
     }
 });
 
@@ -58,11 +51,11 @@ client.Dispatcher.on(Events.MESSAGE_CREATE, e => {
  * 
  * @param {String} title 
  * @param {String[]} options 
- * @param {*} chan 
+ * @param {*} message 
  * @param {boolean} multivote 
  * @param {boolean} captcha 
  */
-function createPoll(title, options, chan, multivote, captcha) {
+function createPoll(title, options, message, multivote, captcha) {
     if (options.length <= maxOptions) {
         if (checkOptions(options)) {
             if (title.length <= maxCharTitle) {
@@ -77,27 +70,27 @@ function createPoll(title, options, chan, multivote, captcha) {
                     },
                     function (error, response, body) {
                         if (!error && response.statusCode == 200) {
-                            chan.sendMessage("Here is your poll : https://www.strawpoll.me/" + body.id);
+                            message.reply("Here is your poll : https://www.strawpoll.me/" + body.id);
                         } else {
-                            chan.sendMessage("Sorry, there seems to have been an error, please try again");
+                            e.channel.send("Sorry, there seems to have been an error, please try again");
                             console.log("There was an error : " + response.statusCode);
                             console.log(error);
                         }
                     }
                 );
             } else {
-                e.message.channel.sendMessage("Error : title has more than " + maxCharTitle + " characters");
+                message.channel.send("Error : title has more than " + maxCharTitle + " characters");
             }
         } else {
-            e.message.channel.sendMessage("Error : an option has more than " + maxCharOptions + " characters");
+            message.channel.send("Error : an option has more than " + maxCharOptions + " characters");
         }
     } else {
-        e.message.channel.sendMessage("Error : too much options (maximum is " + maxOptions + ")");
+        message.channel.send("Error : too much options (maximum is " + maxOptions + ")");
     }
 }
 
-function help(chan) {
-    chan.sendMessage("Here is how to use this bot : \n````\n" + key + "poll [parameters] \"Title of the poll\" \"Option 1\" \"Option 2\" \"Option 3\" \"Etc..\"\n```\nThe parameters are : \n````\n    --captcha  -c     :  If this parameter is set, there will be a captcha in the poll\n    --multi    -m     :  If this parameter is set, it will be allowed to select multiple options\n```\nThere is a minimum of 2 and a maximum of 30 options, 200 characters per option maximum and 400 characters max for the title.\nType `" + key + "poll-help` to show this help.\nFor exemple : \n````\n" + key + "poll -c \"Yes or no ?\" \"Yes\" \"No\"\n```");
+function help(message) {
+    message.reply("Here is how to use this bot : \n````\n" + key + "poll [parameters] \"Title of the poll\" \"Option 1\" \"Option 2\" \"Option 3\" \"Etc..\"\n```\nThe parameters are : \n````\n    --captcha  -c     :  If this parameter is set, there will be a captcha in the poll\n    --multi    -m     :  If this parameter is set, it will be allowed to select multiple options\n```\nThere is a minimum of 2 and a maximum of 30 options, 200 characters per option maximum and 400 characters max for the title.\nType `" + key + "poll-help` to show this help.\nFor exemple : \n````\n" + key + "poll -c \"Yes or no ?\" \"Yes\" \"No\"\n```");
 }
 
 function checkOptions(options) {
@@ -192,3 +185,5 @@ function assemble(command) {
     }, this);
     return result;
 }
+
+client.login(token);
