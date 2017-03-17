@@ -1,8 +1,8 @@
 {
   "name": "strawpollbot",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "dependencies": {
-    "discord.js": "~11.0.",
+    "discord.js": "~11.0",
     "uws" : "~0.13",
     "request": "~2.81"
   },
