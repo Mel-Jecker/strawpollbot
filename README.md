@@ -8,7 +8,9 @@ It is possible to add this bot to your discord server by using this url :
 
 # Hosting the bot yourself
 If you want to host the bot yourself, you first have to install the following depencies : 
-`node npm`
+````
+node npm
+````
 
 Then you need to download this bot using the command : 
 ````
