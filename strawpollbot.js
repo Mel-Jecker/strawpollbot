@@ -126,7 +126,7 @@ function findArgs(command) {
         if (!inQuotationMarks) {
             if (element.startsWith("--")) {
                 var arg = element.replace("--", "");
-                switch (element) {
+                switch (arg) {
                     case "multi":
                         args.push("multi");
                         break;
