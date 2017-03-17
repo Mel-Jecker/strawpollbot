@@ -8,5 +8,9 @@
   "license": "MIT",
   "scripts": {
     "start": "strawpollbot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Lastrik/strawpollbot.git"
   }
 }
