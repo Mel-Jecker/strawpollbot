@@ -4,5 +4,8 @@
   "dependencies": {
     "discordie": "~0.11.0",
     "request": "~2.81.0"
+  },
+  "scripts": {
+    "start": "strawpollbot.js"
   }
 }
