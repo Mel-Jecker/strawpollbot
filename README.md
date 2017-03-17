@@ -1,4 +1,4 @@
-# strawpollbot
+# Strawpoll bot
 This discord bot is used in order to create strawpolls from [strawpoll.me](http://www.strawpoll.me/) directly in discord. 
 
 It is possible to add this bot to your discord server by using this url : 
