@@ -16,6 +16,11 @@ client.on('ready', e => {
     client.user.setGame(key + "poll-help");
 });
 
+client.on('guildCreate', e => {
+    console.log("I have been invited to : " + e.name);
+    console.log("I am now on " + client.guilds.size + " guilds !");
+});
+
 client.on('message', e => {
     var msgContent = e.content;
     if (msgContent.startsWith(key + "poll ")) {
